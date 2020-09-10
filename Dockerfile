@@ -1,12 +1,15 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
+
+# tzdata since 2018 need set noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Prerequisites
 RUN apt-get update && apt-get install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget sudo
 
-RUN yes | apt install vim
+RUN yes | apt-get install vim
 
 # install ruby needs libraries
-RUN yes | sudo apt install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
+RUN yes | sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev
 
 # install ruby
 RUN sudo yes | apt-get install ruby ruby-dev
@@ -14,8 +17,7 @@ RUN export LC_ALL=en_US.UTF-8
 RUN export LANG=en_US.UTF-8
 
 RUN sudo gem install fastlane -NV
-RUN sudo apt-get install libc6-dev
-RUN sudo apt-get install g++
+RUN sudo apt-get install -y libc6-dev g++
 
 # Set up new user
 RUN useradd -ms /bin/bash developer
